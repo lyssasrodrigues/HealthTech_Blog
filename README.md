@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 🩺 HealthTech Blog
 
 Aplicações de Tecnologia e Inteligência Artificial na Saúde
