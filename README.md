@@ -1,4 +1,5 @@
-🩺 HealthTech Blog
+
+🩺 # HealthTech Blog
 
 Aplicações de Tecnologia e Inteligência Artificial na Saúde
 
@@ -54,14 +55,13 @@ hhealthtech/
 git clone https://github.com/seu-usuario/healthtech.git
 cd healthtech
 
-# Instale as dependências
+Instale as dependências
 bundle install
 
-# Configure o banco
+Configure o banco
 rails db:create db:migrate
 
-# Inicie o servidor
+Inicie o servidor
 rails s
-
 
 Acesse 👉 http://localhost:3000
