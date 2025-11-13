@@ -2,24 +2,29 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: %i[ show edit update destroy ]
 
   # GET /articles or /articles.json
+  #exibe a lista de todos os artigos cadastrados
   def index
     @articles = Article.all
   end
 
   # GET /articles/1 or /articles/1.json
+  # mostra um artigo especifico com base no ID
   def show
   end
 
   # GET /articles/new
+  # exibe o formulario para criar um novo artigo
   def new
     @article = Article.new
   end
 
   # GET /articles/1/edit
+  #exibe o formulario para editar um artigo existente
   def edit
   end
 
   # POST /articles or /articles.json
+  # cria um novo artigo com base nos parametros enviados pelo formualrio
   def create
     @article = Article.new(article_params)
 
@@ -60,11 +65,11 @@ class ArticlesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
-      @article = Article.find(params.expect(:id))
+      @article = Article.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def article_params
-      params.expect(article: [ :title, :summary, :category, :body, :published_at ])
+     def article_params
+      params.require(:article).permit(:title, :summary, :category, :body, :published_at)
     end
 end

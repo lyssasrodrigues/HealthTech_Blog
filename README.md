@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 🩺 HealthTech Blog
 
 Aplicações de Tecnologia e Inteligência Artificial na Saúde
@@ -66,6 +65,3 @@ rails s
 
 
 Acesse 👉 http://localhost:3000
-=======
-# HealthTech_Blog
->>>>>>> 3a1ebe177721f4da68db8be4d60ef280f892d5b5
