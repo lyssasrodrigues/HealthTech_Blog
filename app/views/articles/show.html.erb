@@ -1,0 +1,41 @@
+<div class="container my-5">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h1 class="card-title text-primary mb-3"><%= @article.title %></h1>
+      <p class="text-muted mb-4">
+        <%= @article.category.present? ? @article.category : "Geral" %> •
+        Publicado em <%= @article.created_at.strftime("%d/%m/%Y") %>
+      </p>
+
+      <% if @article.summary.present? %>
+        <p class="lead"><%= @article.summary %></p>
+        <hr>
+      <% end %>
+
+      <div class="article-body fs-5 lh-lg">
+        <%= simple_format(@article.body) %>
+      </div>
+
+      <div class="mt-4 d-flex gap-2">
+        <%= link_to "Editar", edit_article_path(@article), class: "btn btn-outline-secondary" %>
+        <%= link_to "Excluir", @article, method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-outline-danger" %>
+        <%= link_to "Voltar", articles_path, class: "btn btn-primary" %>
+      </div>
+    </div>
+  </div>
+
+  <%# Se quiser adicionar comentários no futuro, pode começar aqui %>
+  <% if defined?(@article.comments) && @article.comments.any? %>
+    <div class="mt-5">
+      <h4>Comentários (<%= @article.comments.count %>)</h4>
+      <ul class="list-group mt-3">
+        <% @article.comments.each do |comment| %>
+          <li class="list-group-item">
+            <strong><%= comment.author || "Anônimo" %>:</strong>
+            <%= comment.body %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,41 @@
+<div class="card shadow-sm border-0">
+  <div class="card-body p-4">
+    <%= form_with(model: article, local: true) do |form| %>
+      <% if article.errors.any? %>
+        <div class="alert alert-danger">
+          <h6>Erros:</h6>
+          <ul class="mb-0">
+            <% article.errors.full_messages.each do |m| %>
+              <li><%= m %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="mb-3">
+        <%= form.label :title, "Título", class: "form-label fw-semibold" %>
+        <%= form.text_field :title, class: "form-control", placeholder: "Ex: Aplicações de IA no diagnóstico de câncer de mama" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :summary, "Resumo", class: "form-label fw-semibold" %>
+        <%= form.text_field :summary, class: "form-control", placeholder: "Breve resumo do artigo" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :category, "Categoria", class: "form-label fw-semibold" %>
+        <%= form.text_field :category, class: "form-control", placeholder: "Ex: Inteligência Artificial, Saúde Pública..." %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :body, "Conteúdo", class: "form-label fw-semibold" %>
+        <%= form.text_area :body, rows: 10, class: "form-control", placeholder: "Escreva aqui o conteúdo completo do artigo..." %>
+      </div>
+
+      <div class="d-flex gap-2">
+        <%= form.submit "Salvar", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", articles_path, class: "btn btn-outline-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
