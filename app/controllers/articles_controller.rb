@@ -1,75 +1,79 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: %i[ show edit update destroy ]
+  # impedir que usuarios nao autenticados ciem, editem ou removam artigos
+  before_action :authenticate_user!, except: %i[index show]
 
-  # GET /articles or /articles.json
-  #exibe a lista de todos os artigos cadastrados
+  # Carrega o artigo para acoes especificas
+  before_action :set_article, only: %i[show edit update destroy]
+
+  # apenas o autor pode editar/deletar
+  before_action :authorize_user!, only: %i[edit update destroy]
+
+  # GET /articles
   def index
-    @articles = Article.all
+    #  lista todos os artigos, mais recentes primeiro
+    @articles = Article.order(created_at: :desc)
   end
 
-  # GET /articles/1 or /articles/1.json
-  # mostra um artigo especifico com base no ID
+  # GET /articles/1
   def show
   end
 
   # GET /articles/new
-  # exibe o formulario para criar um novo artigo
   def new
-    @article = Article.new
+    @article = current_user.articles.build
   end
 
   # GET /articles/1/edit
-  #exibe o formulario para editar um artigo existente
   def edit
   end
 
-  # POST /articles or /articles.json
-  # cria um novo artigo com base nos parametros enviados pelo formualrio
+  # POST /articles
   def create
-    @article = Article.new(article_params)
+    @article = current_user.articles.build(article_params)
 
-    respond_to do |format|
-      if @article.save
-        format.html { redirect_to @article, notice: "Article was successfully created." }
-        format.json { render :show, status: :created, location: @article }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
-      end
+    if @article.save
+      redirect_to @article, notice: "Artigo criado com sucesso!"
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /articles/1 or /articles/1.json
+  # PATCH/PUT /articles/1
   def update
-    respond_to do |format|
-      if @article.update(article_params)
-        format.html { redirect_to @article, notice: "Article was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @article }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @article.errors, status: :unprocessable_entity }
-      end
+    if @article.update(article_params)
+      redirect_to @article, notice: "Artigo atualizado com sucesso!", status: :see_other
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /articles/1 or /articles/1.json
+  # DELETE /articles/1
   def destroy
     @article.destroy!
+    redirect_to articles_path, notice: "Artigo removido com sucesso!", status: :see_other
+  end
 
-    respond_to do |format|
-      format.html { redirect_to articles_path, notice: "Article was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
-    end
+  # GET /meus-artigos
+  def my_articles
+    @articles = current_user.articles.order(created_at: :desc)
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_article
-      @article = Article.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-     def article_params
-      params.require(:article).permit(:title, :summary, :category, :body, :published_at)
-    end
+  # carrega o artigo pelo ID
+  def set_article
+    @article = Article.find(params[:id])
+  end
+
+  # impede edição/remoção por usuários que nao sao o autor
+  def authorize_user!
+    return if @article.user == current_user
+
+    redirect_to articles_path, alert: "Você não tem permissão para fazer isso."
+  end
+
+  
+  def article_params
+    params.require(:article).permit(:title, :summary, :category, :body, :published_at)
+  end
 end

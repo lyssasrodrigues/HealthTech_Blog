@@ -2,6 +2,10 @@
   <div class="card shadow-sm border-0">
     <div class="card-body p-4">
       <h1 class="card-title text-primary mb-3"><%= @article.title %></h1>
+      <p class="text-muted">
+       Autor: <strong><%= @article.user.name %></strong>
+      </p>
+
       <p class="text-muted mb-4">
         <%= @article.category.present? ? @article.category : "Geral" %> •
         Publicado em <%= @article.created_at.strftime("%d/%m/%Y") %>

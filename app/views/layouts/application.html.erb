@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>HealthInsights Blog</title>
+    <title>HealthTech Blog</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -37,18 +37,48 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
       <div class="container">
         <a class="navbar-brand fw-bold" href="/">HealthTech</a>
-        <div>
+
+        <!-- Links da direita -->
+        <div class="d-flex align-items-center">
+
           <%= link_to "Artigos", articles_path, class: "nav-link d-inline text-white me-3" %>
-          <%= link_to "Sobre", "/sobre", class: "nav-link d-inline text-white me-3" %>
-          <%= link_to "Novo Artigo", new_article_path, class: "btn btn-light btn-sm" %>
+          <%= link_to "Sobre", about_path, class: "nav-link d-inline text-white me-3" %>
+
+          <% if user_signed_in? %>
+            <%= link_to "Meus Artigos", my_articles_path, class: "nav-link d-inline text-white me-3" %>
+            <%= link_to "Novo Artigo", new_article_path, class: "btn btn-light btn-sm me-3" %>
+
+            <span class="text-white me-3">
+              👤 <%= current_user.name %>
+            </span>
+
+            <%= link_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
+
+
+          <% else %>
+            <%= link_to "Entrar", new_user_session_path, class: "btn btn-light btn-sm me-2" %>
+            <%= link_to "Cadastrar", new_user_registration_path, class: "btn btn-outline-light btn-sm" %>
+          <% end %>
+
         </div>
       </div>
     </nav>
 
-    <%= yield %>
+    <!-- Conteúdo da página -->
+    <div class="container mt-4">
+      <% if notice %>
+        <div class="alert alert-success"><%= notice %></div>
+      <% end %>
+
+      <% if alert %>
+        <div class="alert alert-danger"><%= alert %></div>
+      <% end %>
+
+      <%= yield %>
+    </div>
 
     <footer class="text-center text-muted py-4 border-top mt-5 bg-white">
-      © <%= Time.current.year %> <strong>HealthInsights</strong> — Inovação e Tecnologia em Saúde
+      © <%= Time.current.year %> <strong>HealthTech</strong> — Inovação e Tecnologia em Saúde
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
