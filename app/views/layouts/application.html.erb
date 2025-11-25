@@ -52,7 +52,8 @@
               👤 <%= current_user.name %>
             </span>
 
-            <%= link_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
+           <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm", form_class: "d-inline" %>
+
 
 
           <% else %>

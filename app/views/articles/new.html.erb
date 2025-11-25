@@ -8,6 +8,11 @@
 
         <%= form_with(url: session_path(resource_name), scope: resource_name, local: true) do |f| %>
 
+          <div class="field mb-3">
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true, class: "form-control" %>
+        </div>
+
           <div class="mb-3">
             <%= f.label :email, "E-mail", class: "form-label fw-semibold" %>
             <%= f.email_field :email, autofocus: true, class: "form-control form-control-lg", placeholder: "seu@email.com" %>
